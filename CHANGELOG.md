@@ -7,6 +7,29 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.8.0] — 2026-03-20
+
+### Added
+- **ProductDetailPage** (`/products/:id`) — full shareable URL for every product; image gallery, specs chips, description, qty selector, cart, compare, trust strip, related products; direct navigation works without opening modal first
+- **SearchPage** (`/search?q=`) — dedicated search results page with sidebar filters: category, max price slider, sort; Enter key or search button in Navbar navigates here; results link directly to `/products/:id`
+- **Share button** on ProductDetailPage — copies URL to clipboard
+- **Full page link** in ProductModal header — arrow icon navigates to `/products/:id` without closing experience flow
+- **Real EB logo PNG** integrated — white background stripped programmatically; `logo.png` (transparent, teal) used in Navbar; `logo-white.png` (white mark) used in Footer
+- **Icon assets regenerated** from real EB logo — `icon-192.png`, `icon-512.png` now show actual EB mark; `apple-touch-icon.png` teal background with white EB
+
+### Fixed
+- **Footer payment marks** — Fuliza, Equity, KCB removed; Visa and Mastercard as accurate SVG marks; M-Pesa accurate green brand mark; PesaPal accurate purple wordmark
+- **Footer bottom bar** — fully centred (Privacy Policy · Terms of Service · copyright stacked)
+- **"Made in Kenya"** — removed from footer
+- **Navbar search** — Enter key and search button now navigate to `/search?q=query` instead of filtering inline only
+
+### Changed
+- ProductGrid card clicks push `/products/:id` to URL history (modal still opens simultaneously)
+- Footer logo switched from SVG placeholder to real `logo-white.png`
+- Navbar logo switched to real `logo.png` with text wordmark alongside
+
+---
+
 ## [1.7.0] — 2026-03-20
 
 ### Added

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 const navLinks = [
@@ -16,6 +16,14 @@ const navLinks = [
 export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const { count } = useCart()
+  const navigate = useNavigate()
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      const q = (searchQuery || '').trim()
+      if (q) navigate(`/search?q=${encodeURIComponent(q)}`)
+    }
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-ebora-border shadow-sm">
@@ -24,17 +32,17 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
       <div className="max-w-8xl mx-auto px-4 flex items-center gap-3 h-16">
 
         {/* Logo */}
-        <a href="/" className="flex-shrink-0">
+        <Link to="/" className="flex items-center gap-2 flex-shrink-0">
           <img
-            src="/logo-dark.svg"
-            alt="E-Bora Commerce"
-            className="h-8 md:h-9 w-auto"
-            onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='block' }}
+            src="/logo.png"
+            alt="EB"
+            className="h-8 w-auto"
           />
-          <span className="hidden font-display font-extrabold text-lg text-primary tracking-tight">
-            E-Bora Commerce
+          <span className="font-display font-extrabold text-base md:text-lg text-primary tracking-tight leading-none hidden sm:block">
+            E-Bora<br/>
+            <span className="text-[11px] font-semibold text-ink-3 tracking-widest uppercase">Commerce</span>
           </span>
-        </a>
+        </Link>
 
         {/* Search — desktop */}
         <div className="hidden md:flex flex-1 max-w-xl border-[1.5px] border-ebora-border2 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition-all">
@@ -50,6 +58,7 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
             value={searchQuery}
             onChange={e => onSearch(e.target.value)}
             placeholder="Search phones, laptops, solar..."
+            onKeyDown={handleSearch}
             className="flex-1 px-3 py-2.5 text-sm text-ink placeholder-ink-3 bg-white outline-none"
           />
           {searchQuery && (
@@ -60,7 +69,7 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
               <i className="fas fa-times text-sm" />
             </button>
           )}
-          <button className="px-4 bg-primary hover:bg-primary-dark text-white transition-colors">
+          <button onClick={handleSearch} className="px-4 bg-primary hover:bg-primary-dark text-white transition-colors">
             <i className="fas fa-search text-sm" />
           </button>
         </div>
@@ -119,6 +128,7 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
             value={searchQuery}
             onChange={e => onSearch(e.target.value)}
             placeholder="Search phones, laptops, TVs..."
+            onKeyDown={handleSearch}
             className="flex-1 px-3 py-2.5 text-sm text-ink placeholder-ink-3 bg-white outline-none"
           />
           {searchQuery && (
@@ -129,7 +139,7 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
               <i className="fas fa-times text-sm" />
             </button>
           )}
-          <button className="px-4 bg-primary text-white">
+          <button onClick={handleSearch} className="px-4 bg-primary text-white">
             <i className="fas fa-search text-sm" />
           </button>
         </div>

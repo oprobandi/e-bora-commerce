@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useCompare } from '../context/CompareContext'
@@ -28,6 +29,7 @@ export default function ProductModal({ product, onClose, onProductSelect }) {
   const { toggle: toggleCompare, isComparing, isFull } = useCompare()
   const { addViewed } = useRecentlyViewed()
 
+  const navigate = useNavigate()
   const [activeImg, setActiveImg] = useState(0)
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
@@ -89,6 +91,15 @@ export default function ProductModal({ product, onClose, onProductSelect }) {
               {product.brand}
             </span>
             <div className="flex items-center gap-2">
+              {/* Full page link */}
+              <Link
+                to={`/products/${product.id}`}
+                onClick={onClose}
+                className="text-xs font-semibold text-ink-3 hover:text-primary transition-colors px-2"
+                title="Open full page"
+              >
+                <i className="fas fa-arrow-up-right-from-square" />
+              </Link>
               {/* Compare toggle */}
               <button
                 onClick={() => toggleCompare(product)}

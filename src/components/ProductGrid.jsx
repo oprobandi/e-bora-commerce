@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useCompare } from '../context/CompareContext'
@@ -30,6 +31,7 @@ const Stars = ({ rating }) => {
 }
 
 export default function ProductGrid({ activeCategory, searchQuery, onProductSelect }) {
+  const navigate = useNavigate()
   const { addItem } = useCart()
   const { toggle, isWished } = useWishlist()
   const { toggle: toggleCompare, isComparing, isFull } = useCompare()
@@ -120,7 +122,7 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
           {sorted.map(product => (
             <div
               key={product.id}
-              onClick={() => onProductSelect(product)}
+              onClick={() => { onProductSelect(product); navigate(`/products/${product.id}`) }}
               className="bg-white border-[1.5px] border-ebora-border rounded-2xl overflow-hidden group hover:border-primary/40 hover:shadow-lg hover:shadow-primary/8 hover:-translate-y-1 transition-all cursor-pointer"
             >
               <div className="relative overflow-hidden">
