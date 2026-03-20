@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 const navLinks = [
@@ -66,16 +67,16 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
           </div>
 
           {/* Account */}
-          <a href="#" className="hidden md:flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg text-ink-2 hover:text-primary hover:bg-primary-light transition-colors text-[10px] font-medium">
+          <Link to="/account" className="hidden md:flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg text-ink-2 hover:text-primary hover:bg-primary-light transition-colors text-[10px] font-medium">
             <i className="fas fa-user text-base" />
             <span>Account</span>
-          </a>
+          </Link>
 
           {/* Saved */}
-          <a href="#" className="hidden md:flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg text-ink-2 hover:text-primary hover:bg-primary-light transition-colors text-[10px] font-medium">
+          <Link to="/wishlist" className="hidden md:flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg text-ink-2 hover:text-primary hover:bg-primary-light transition-colors text-[10px] font-medium">
             <i className="fa-regular fa-heart text-base" />
             <span>Saved</span>
-          </a>
+          </Link>
 
           {/* Cart */}
           <button

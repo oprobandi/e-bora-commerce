@@ -7,6 +7,20 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.6.0] — 2026-03-20
+
+### Added
+- **Account page** (`/account`) — login/register with localStorage; logged-in dashboard with orders, saved items, WhatsApp support, sign out
+- **Wishlist page** (`/wishlist`) — saved items grid with remove and Add to Cart; linked from Navbar
+- **Order history** (`/orders`) — past orders from localStorage with status badge, item images, total; auto-saved on order success
+- **Code splitting** — all pages lazy-loaded via `React.lazy` + `Suspense`; reduces initial JS bundle parse time
+- **Brand logos fixed** — replaced broken Wikipedia `<img>` with inline SVG wordmarks; always renders
+- **Social links** — all 7 platforms link to `@ebora_commerce` with brand hover colours
+- **Payment badges** — M-PESA, VISA, MASTERCARD, PESAPAL, FULIZA, EQUITY, KCB with brand background colours
+- **Order saving** — `OrderSuccessPage` writes to `localStorage('ebora-orders')` on mount
+
+---
+
 ## [1.5.0] — 2026-03-20
 
 ### Added

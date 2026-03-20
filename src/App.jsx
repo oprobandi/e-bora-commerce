@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { WishlistProvider } from './context/WishlistContext'
 import { RecentlyViewedProvider } from './context/RecentlyViewedContext'
 import { CompareProvider } from './context/CompareContext'
 
+// Eagerly loaded — always needed
 import AnnouncementBar from './components/AnnouncementBar'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -25,9 +26,25 @@ import ProductModal from './components/ProductModal'
 import CompareBar from './components/CompareBar'
 import CookieConsent from './components/CookieConsent'
 import ScrollToTop from './components/ScrollToTop'
-import CheckoutPage from './pages/CheckoutPage'
-import OrderSuccessPage from './pages/OrderSuccessPage'
-import NotFoundPage from './pages/NotFoundPage'
+
+// Code-split pages — only loaded when navigated to
+const CheckoutPage     = lazy(() => import('./pages/CheckoutPage'))
+const OrderSuccessPage = lazy(() => import('./pages/OrderSuccessPage'))
+const NotFoundPage     = lazy(() => import('./pages/NotFoundPage'))
+const WishlistPage     = lazy(() => import('./pages/WishlistPage'))
+const OrderHistoryPage = lazy(() => import('./pages/OrderHistoryPage'))
+const AccountPage      = lazy(() => import('./pages/AccountPage'))
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-ebora-bg flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3 text-ink-3">
+        <i className="fas fa-circle-notch fa-spin text-2xl text-primary" />
+        <span className="text-sm font-medium">Loading…</span>
+      </div>
+    </div>
+  )
+}
 
 function HomePage({ cartOpen, setCartOpen }) {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -82,12 +99,17 @@ export default function App() {
         <WishlistProvider>
           <RecentlyViewedProvider>
             <CompareProvider>
-              <Routes>
-                <Route path="/" element={<HomePage cartOpen={cartOpen} setCartOpen={setCartOpen} />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/order/success" element={<OrderSuccessPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/"              element={<HomePage cartOpen={cartOpen} setCartOpen={setCartOpen} />} />
+                  <Route path="/checkout"      element={<CheckoutPage />} />
+                  <Route path="/order/success" element={<OrderSuccessPage />} />
+                  <Route path="/wishlist"      element={<WishlistPage />} />
+                  <Route path="/orders"        element={<OrderHistoryPage />} />
+                  <Route path="/account"       element={<AccountPage />} />
+                  <Route path="*"              element={<NotFoundPage />} />
+                </Routes>
+              </Suspense>
               <WhatsAppButton />
               <ScrollToTop />
               <CookieConsent />

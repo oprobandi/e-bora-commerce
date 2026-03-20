@@ -1,9 +1,32 @@
 import { useLocation, Link, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export default function OrderSuccessPage() {
   const { state } = useLocation()
 
   if (!state?.orderNumber) return <Navigate to="/" replace />
+
+  // Save order to localStorage history
+  useEffect(() => {
+    if (!state?.orderNumber) return
+    try {
+      const existing = JSON.parse(localStorage.getItem('ebora-orders') || '[]')
+      const already = existing.find(o => o.orderNumber === state.orderNumber)
+      if (!already) {
+        const newOrder = {
+          orderNumber: state.orderNumber,
+          date: new Date().toLocaleDateString('en-KE', { year: 'numeric', month: 'short', day: 'numeric' }),
+          status: 'confirmed',
+          items: state.items || [],
+          total: state.total,
+          payMethod: state.payMethod,
+          county: state.county,
+        }
+        localStorage.setItem('ebora-orders', JSON.stringify([newOrder, ...existing].slice(0, 50)))
+      }
+    } catch {}
+  }, [state?.orderNumber])
+
 
   const { orderNumber, name, phone, payMethod, items, total, deliveryFee, county } = state
 
