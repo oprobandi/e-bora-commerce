@@ -7,6 +7,24 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.4.0] — 2026-03-20
+
+### Added
+- **ProductModal** — full-screen lightbox on product card click; image gallery with thumbnail nav, specs chips, description, qty selector, Add to Cart, wishlist toggle, compare toggle, related products grid, Escape to close
+- **Product images array** — each product now has 3 Unsplash images; `images[0]` used as card thumbnail throughout
+- **Product descriptions** — full paragraph description added to all 8 products
+- **RecentlyViewedContext** — tracks last 6 viewed products in localStorage; persists across sessions
+- **RecentlyViewed section** — appears on homepage below product grid once any product has been viewed
+- **CompareContext** — tracks up to 3 products selected for comparison (no persistence — resets on reload by design)
+- **CompareBar** — floating bar fixed to bottom of screen showing selected products side-by-side with price, rating, and "View details" link; appears only when 1+ products selected
+- **Compare button** — appears on product card hover; disabled when 3 products already selected
+
+### Changed
+- `ProductGrid` cards are now clickable (open modal) with `e.stopPropagation()` on action buttons
+- `App.jsx` wraps all providers: `CartProvider > WishlistProvider > RecentlyViewedProvider > CompareProvider`
+
+---
+
 ## [1.3.0] — 2026-03-20
 
 ### Added

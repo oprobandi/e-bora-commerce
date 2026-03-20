@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { WishlistProvider } from './context/WishlistContext'
+import { RecentlyViewedProvider } from './context/RecentlyViewedContext'
+import { CompareProvider } from './context/CompareContext'
 
 import AnnouncementBar from './components/AnnouncementBar'
 import Navbar from './components/Navbar'
@@ -10,6 +12,7 @@ import StatsBar from './components/StatsBar'
 import CategoryBar from './components/CategoryBar'
 import FlashDeals from './components/FlashDeals'
 import ProductGrid from './components/ProductGrid'
+import RecentlyViewed from './components/RecentlyViewed'
 import Banners from './components/Banners'
 import TrustStrip from './components/TrustStrip'
 import MpesaSection from './components/MpesaSection'
@@ -18,12 +21,15 @@ import Newsletter from './components/Newsletter'
 import Footer from './components/Footer'
 import CartDrawer from './components/CartDrawer'
 import WhatsAppButton from './components/WhatsAppButton'
+import ProductModal from './components/ProductModal'
+import CompareBar from './components/CompareBar'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderSuccessPage from './pages/OrderSuccessPage'
 
 function HomePage({ cartOpen, setCartOpen }) {
   const [activeCategory, setActiveCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedProduct, setSelectedProduct] = useState(null)
 
   return (
     <div className="min-h-screen bg-ebora-bg font-body text-ink">
@@ -38,7 +44,12 @@ function HomePage({ cartOpen, setCartOpen }) {
         <StatsBar />
         <CategoryBar active={activeCategory} onSelect={setActiveCategory} />
         <FlashDeals />
-        <ProductGrid activeCategory={activeCategory} searchQuery={searchQuery} />
+        <ProductGrid
+          activeCategory={activeCategory}
+          searchQuery={searchQuery}
+          onProductSelect={setSelectedProduct}
+        />
+        <RecentlyViewed onProductSelect={setSelectedProduct} />
         <Banners />
         <TrustStrip />
         <MpesaSection />
@@ -47,6 +58,15 @@ function HomePage({ cartOpen, setCartOpen }) {
       </main>
       <Footer />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <CompareBar onProductSelect={setSelectedProduct} />
+
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onProductSelect={setSelectedProduct}
+        />
+      )}
     </div>
   )
 }
@@ -58,15 +78,19 @@ export default function App() {
     <BrowserRouter>
       <CartProvider>
         <WishlistProvider>
-          <Routes>
-            <Route
-              path="/"
-              element={<HomePage cartOpen={cartOpen} setCartOpen={setCartOpen} />}
-            />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/order/success" element={<OrderSuccessPage />} />
-          </Routes>
-          <WhatsAppButton />
+          <RecentlyViewedProvider>
+            <CompareProvider>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<HomePage cartOpen={cartOpen} setCartOpen={setCartOpen} />}
+                />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/order/success" element={<OrderSuccessPage />} />
+              </Routes>
+              <WhatsAppButton />
+            </CompareProvider>
+          </RecentlyViewedProvider>
         </WishlistProvider>
       </CartProvider>
     </BrowserRouter>
