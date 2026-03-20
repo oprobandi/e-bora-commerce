@@ -7,6 +7,21 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.5.0] — 2026-03-20
+
+### Added
+- **Hero redesign** — full-width Nairobi lifestyle background image with warm dark near-black overlay (`#1a1510`); gradient fades right for legibility; featured product card has `backdrop-blur` glass effect; CTA buttons and trust chips adapt to dark background
+- **Cookie consent banner** (KDPA 2019 compliant) — slides up after 1.2s on first visit; "Accept all" or "Essential only" options; expandable detail panel explaining Essential, Analytics and Preferences cookie categories; persists decision to localStorage (`ebora-cookie-consent`)
+- **Product sort** — dropdown in ProductGrid header: Default, Price Low→High, Price High→Low, Top Rated, Newest (by id)
+- **404 page** — branded not-found page with large `404` display, back-to-home CTA, call support link, popular category shortcuts
+- **Scroll-to-top button** — appears after 400px scroll; smooth scroll on click; positioned above WhatsApp button
+
+### Changed
+- Hero text, CTAs and trust chips now use white/white-opacity tokens against dark background
+- Hero featured card border updated to `white/60` for glass effect on dark background
+
+---
+
 ## [1.4.0] — 2026-03-20
 
 ### Added

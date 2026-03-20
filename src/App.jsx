@@ -23,8 +23,11 @@ import CartDrawer from './components/CartDrawer'
 import WhatsAppButton from './components/WhatsAppButton'
 import ProductModal from './components/ProductModal'
 import CompareBar from './components/CompareBar'
+import CookieConsent from './components/CookieConsent'
+import ScrollToTop from './components/ScrollToTop'
 import CheckoutPage from './pages/CheckoutPage'
 import OrderSuccessPage from './pages/OrderSuccessPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function HomePage({ cartOpen, setCartOpen }) {
   const [activeCategory, setActiveCategory] = useState('all')
@@ -59,7 +62,6 @@ function HomePage({ cartOpen, setCartOpen }) {
       <Footer />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <CompareBar onProductSelect={setSelectedProduct} />
-
       {selectedProduct && (
         <ProductModal
           product={selectedProduct}
@@ -81,14 +83,14 @@ export default function App() {
           <RecentlyViewedProvider>
             <CompareProvider>
               <Routes>
-                <Route
-                  path="/"
-                  element={<HomePage cartOpen={cartOpen} setCartOpen={setCartOpen} />}
-                />
+                <Route path="/" element={<HomePage cartOpen={cartOpen} setCartOpen={setCartOpen} />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/order/success" element={<OrderSuccessPage />} />
+                <Route path="*" element={<NotFoundPage />} />
               </Routes>
               <WhatsAppButton />
+              <ScrollToTop />
+              <CookieConsent />
             </CompareProvider>
           </RecentlyViewedProvider>
         </WishlistProvider>

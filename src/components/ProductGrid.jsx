@@ -10,6 +10,14 @@ const badgeStyles = {
   sale: 'bg-brand-orange text-white',
 }
 
+const SORT_OPTIONS = [
+  { value: 'default',     label: 'Default' },
+  { value: 'price_asc',   label: 'Price: Low → High' },
+  { value: 'price_desc',  label: 'Price: High → Low' },
+  { value: 'rating',      label: 'Top Rated' },
+  { value: 'newest',      label: 'Newest' },
+]
+
 const Stars = ({ rating }) => {
   const full  = Math.floor(rating)
   const half  = rating % 1 >= 0.5
@@ -26,6 +34,7 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
   const { toggle, isWished } = useWishlist()
   const { toggle: toggleCompare, isComparing, isFull } = useCompare()
   const [added, setAdded] = useState({})
+  const [sort, setSort] = useState('default')
 
   const query = (searchQuery || '').toLowerCase().trim()
 
@@ -36,6 +45,14 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
       p.brand.toLowerCase().includes(query) ||
       p.specs.toLowerCase().includes(query)
     return matchesCategory && matchesSearch
+  })
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sort === 'price_asc')  return a.price - b.price
+    if (sort === 'price_desc') return b.price - a.price
+    if (sort === 'rating')     return b.rating - a.rating
+    if (sort === 'newest')     return b.id - a.id
+    return 0
   })
 
   const handleAdd = (e, product) => {
@@ -49,23 +66,44 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
     <section className="bg-white border-b border-ebora-border py-10 px-4">
       <div className="max-w-8xl mx-auto">
 
-        <div className="flex items-end justify-between mb-6">
+        {/* Header */}
+        <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
           <div>
             <div className="text-[11.5px] font-bold tracking-[1.8px] uppercase text-primary mb-1">
               {query ? `Search results for "${searchQuery}"` : 'Top Picks'}
             </div>
             <h2 className="font-display font-extrabold text-2xl md:text-3xl text-ink tracking-tight">
-              {query ? `${filtered.length} product${filtered.length !== 1 ? 's' : ''} found` : 'Trending in Kenya'}
+              {query
+                ? `${sorted.length} product${sorted.length !== 1 ? 's' : ''} found`
+                : 'Trending in Kenya'}
             </h2>
           </div>
-          {!query && (
-            <a href="#" className="text-sm font-semibold text-primary border-b-[1.5px] border-transparent hover:border-primary transition-colors whitespace-nowrap flex items-center gap-1">
-              Browse All <i className="fas fa-chevron-right text-[10px]" />
-            </a>
-          )}
+          <div className="flex items-center gap-3 ml-auto">
+            {/* Sort */}
+            <div className="flex items-center gap-2">
+              <label className="text-xs font-semibold text-ink-3 whitespace-nowrap hidden sm:block">
+                Sort by
+              </label>
+              <select
+                value={sort}
+                onChange={e => setSort(e.target.value)}
+                className="border border-ebora-border2 rounded-lg px-3 py-2 text-sm text-ink bg-white outline-none focus:border-primary transition-colors cursor-pointer"
+              >
+                {SORT_OPTIONS.map(o => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+            {!query && (
+              <a href="#" className="text-sm font-semibold text-primary border-b-[1.5px] border-transparent hover:border-primary transition-colors whitespace-nowrap hidden sm:flex items-center gap-1">
+                Browse All <i className="fas fa-chevron-right text-[10px]" />
+              </a>
+            )}
+          </div>
         </div>
 
-        {filtered.length === 0 && (
+        {/* Empty state */}
+        {sorted.length === 0 && (
           <div className="text-center py-16 text-ink-3">
             <i className="fas fa-magnifying-glass text-4xl mb-3 block opacity-30" />
             <p className="font-semibold text-ink text-base mb-1">
@@ -77,8 +115,9 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
           </div>
         )}
 
+        {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filtered.map(product => (
+          {sorted.map(product => (
             <div
               key={product.id}
               onClick={() => onProductSelect(product)}
@@ -119,7 +158,6 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
                   <i className="fas fa-scale-balanced mr-1" />
                   {isComparing(product.id) ? 'Comparing' : 'Compare'}
                 </button>
-                {/* Quick add overlay */}
                 <button
                   onClick={e => handleAdd(e, product)}
                   className="absolute bottom-0 left-0 right-0 bg-primary text-white text-xs font-semibold py-2.5 flex items-center justify-center gap-1.5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all"
@@ -127,7 +165,6 @@ export default function ProductGrid({ activeCategory, searchQuery, onProductSele
                   <i className="fas fa-cart-plus" /> Quick Add
                 </button>
               </div>
-
               <div className="p-3.5">
                 <div className="text-[11px] font-bold tracking-wider uppercase text-primary mb-1">{product.brand}</div>
                 <div className="font-semibold text-[14px] text-ink leading-snug mb-1.5 line-clamp-2">{product.name}</div>
