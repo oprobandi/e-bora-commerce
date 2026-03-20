@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
@@ -18,25 +19,23 @@ export default function CookieConsent() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[60] px-4 pb-4 sm:pb-6">
-      <div className="max-w-3xl mx-auto bg-[#1a1510] text-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+      <div className="max-w-2xl mx-auto bg-[#1a1510] text-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
 
         {/* Main row */}
         <div className="px-5 py-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <i className="fas fa-shield-halved text-brand-green text-sm" />
-              <span className="font-display font-bold text-sm text-white">Your Privacy Matters</span>
-            </div>
-            <p className="text-xs text-white/65 leading-relaxed">
-              We use cookies to improve your shopping experience and comply with the{' '}
-              <strong className="text-white/80">Kenya Data Protection Act (2019)</strong>.
-              Essential cookies are always active.{' '}
+            <p className="text-sm text-white/80 leading-relaxed">
+              🍪 We use cookies to improve your shopping experience.{' '}
               <button
                 onClick={() => setShowDetails(!showDetails)}
                 className="text-primary underline hover:no-underline"
               >
-                {showDetails ? 'Hide details' : 'Learn more'}
+                {showDetails ? 'Hide' : 'Details'}
               </button>
+              {' · '}
+              <Link to="/privacy" className="text-primary underline hover:no-underline">
+                Privacy Policy
+              </Link>
             </p>
           </div>
 
@@ -57,42 +56,11 @@ export default function CookieConsent() {
           </div>
         </div>
 
-        {/* Expandable details */}
+        {/* Expandable details — minimal, no jargon */}
         {showDetails && (
-          <div className="border-t border-white/10 px-5 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {[
-              {
-                icon: 'fas fa-lock',
-                title: 'Essential',
-                desc: 'Cart, wishlist, recently viewed. Required for the site to function.',
-                always: true,
-              },
-              {
-                icon: 'fas fa-chart-bar',
-                title: 'Analytics',
-                desc: 'Anonymous usage data to help us improve the store.',
-                always: false,
-              },
-              {
-                icon: 'fas fa-bullseye',
-                title: 'Preferences',
-                desc: 'Remember your settings, language, and personalisation choices.',
-                always: false,
-              },
-            ].map(c => (
-              <div key={c.title} className="bg-white/5 rounded-xl p-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <i className={`${c.icon} text-xs text-white/50`} />
-                  <span className="text-xs font-bold text-white">{c.title}</span>
-                  {c.always && (
-                    <span className="ml-auto text-[10px] bg-brand-green/20 text-brand-green font-semibold px-1.5 py-0.5 rounded">
-                      Always on
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] text-white/50 leading-relaxed">{c.desc}</p>
-              </div>
-            ))}
+          <div className="border-t border-white/10 px-5 py-3 flex flex-col sm:flex-row gap-3 text-[11px] text-white/50">
+            <span><strong className="text-white/70">Essential</strong> — cart, wishlist, preferences (always on)</span>
+            <span><strong className="text-white/70">Analytics</strong> — anonymous usage stats to improve the store</span>
           </div>
         )}
       </div>

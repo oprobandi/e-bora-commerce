@@ -7,6 +7,24 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.7.0] — 2026-03-20
+
+### Added
+- **Privacy Policy page** (`/privacy`) — full readable policy in clean table layout, plain English
+- **Terms of Service page** (`/terms`) — full T&C with delivery table, payment methods, returns, disputes
+- **Footer links** — Privacy Policy and Terms of Service linked in footer bottom bar
+- **Designer logos integrated** — `logo-dark.svg` in Navbar + AccountPage login, `logo-white.svg` in Footer, `og-image.jpg` in OG meta tags, `apple-touch-icon.png` wired to manifest
+- **PNG icons resized** — `icon-192.png` compressed from 1.1MB→41KB, `icon-512.png` 890KB→176KB, `apple-touch-icon.png` 482KB→38KB, `og-image.jpg` 1.4MB→36KB
+- **SVG fill fixed** — `EB_logo-white.svg` fill corrected from `#000000` to `#FFFFFF`
+- **OG/Twitter meta tags** — `og:image`, `og:image:width/height/type`, `twitter:card`, `twitter:image` added to `index.html`
+- **Real payment icons** — Visa (navy wordmark SVG), Mastercard (red/yellow overlapping circles SVG), M-Pesa (green badge SVG); PESAPAL, FULIZA, EQUITY, KCB retain styled text badges
+
+### Fixed
+- **Cookie banner** — removed "Kenya Data Protection Act (2019)" copy from the banner itself; now just "We use cookies to improve your shopping experience" with a Privacy Policy link; legal detail lives in `/privacy` where it belongs
+- **`EB_logo.svg` empty** — noted as requiring designer fix; `logo-dark.svg` used as fallback
+
+---
+
 ## [1.6.0] — 2026-03-20
 
 ### Added

@@ -24,8 +24,16 @@ export default function Navbar({ searchQuery, onSearch, onCartOpen }) {
       <div className="max-w-8xl mx-auto px-4 flex items-center gap-3 h-16">
 
         {/* Logo */}
-        <a href="/" className="font-display font-extrabold text-lg md:text-xl text-primary tracking-tight flex-shrink-0">
-          E-Bora Commerce
+        <a href="/" className="flex-shrink-0">
+          <img
+            src="/logo-dark.svg"
+            alt="E-Bora Commerce"
+            className="h-8 md:h-9 w-auto"
+            onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='block' }}
+          />
+          <span className="hidden font-display font-extrabold text-lg text-primary tracking-tight">
+            E-Bora Commerce
+          </span>
         </a>
 
         {/* Search — desktop */}

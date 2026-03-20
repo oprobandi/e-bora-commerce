@@ -34,6 +34,8 @@ const NotFoundPage     = lazy(() => import('./pages/NotFoundPage'))
 const WishlistPage     = lazy(() => import('./pages/WishlistPage'))
 const OrderHistoryPage = lazy(() => import('./pages/OrderHistoryPage'))
 const AccountPage      = lazy(() => import('./pages/AccountPage'))
+const PrivacyPage      = lazy(() => import('./pages/PrivacyPage'))
+const TermsPage        = lazy(() => import('./pages/TermsPage'))
 
 function PageLoader() {
   return (
@@ -107,6 +109,8 @@ export default function App() {
                   <Route path="/wishlist"      element={<WishlistPage />} />
                   <Route path="/orders"        element={<OrderHistoryPage />} />
                   <Route path="/account"       element={<AccountPage />} />
+                  <Route path="/privacy"       element={<PrivacyPage />} />
+                  <Route path="/terms"         element={<TermsPage />} />
                   <Route path="*"              element={<NotFoundPage />} />
                 </Routes>
               </Suspense>

@@ -156,9 +156,8 @@ export default function AccountPage() {
 
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-primary mx-auto flex items-center justify-center mb-3">
-              <i className="fas fa-bolt text-white text-xl" />
-            </div>
+            <img src="/logo-dark.svg" alt="E-Bora Commerce" className="h-10 w-auto mx-auto mb-3"
+              onError={e => { e.target.style.display='none' }} />
             <h1 className="font-display font-extrabold text-2xl text-ink">E-Bora Commerce</h1>
             <p className="text-sm text-ink-3 mt-1">
               {mode === 'login' ? 'Welcome back' : 'Join thousands of happy customers'}
