@@ -1,6 +1,6 @@
 export const deals = [
   {
-    id: 1,
+    id: 'deal_1',
     name: 'Tecno Camon 30 Pro',
     sub: '256GB · 8GB RAM · Dual SIM',
     price: 18999,
@@ -11,7 +11,7 @@ export const deals = [
     image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=400&auto=format&fit=crop',
   },
   {
-    id: 2,
+    id: 'deal_2',
     name: 'Sony WH-1000XM5',
     sub: 'Noise Cancelling · Black',
     price: 24500,
@@ -22,7 +22,7 @@ export const deals = [
     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop',
   },
   {
-    id: 3,
+    id: 'deal_3',
     name: 'Samsung Galaxy Tab S9',
     sub: '128GB · Wi-Fi · S Pen Included',
     price: 48000,
@@ -33,7 +33,7 @@ export const deals = [
     image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=400&auto=format&fit=crop',
   },
   {
-    id: 4,
+    id: 'deal_4',
     name: 'LG OLED 55" evo C3',
     sub: '4K · 120Hz · webOS 23',
     price: 92000,
@@ -44,7 +44,7 @@ export const deals = [
     image: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=400&auto=format&fit=crop',
   },
   {
-    id: 5,
+    id: 'deal_5',
     name: '400W Solar Panel Kit',
     sub: 'Inverter + Batteries included',
     price: 38500,

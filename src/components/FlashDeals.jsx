@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { deals } from '../data/deals'
 import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
 
 function useCountdown(initial = { h: 4, m: 23, s: 11 }) {
   const [time, setTime] = useState(initial)
@@ -28,9 +29,7 @@ const progressColor = (pct) => {
 export default function FlashDeals() {
   const { h, m, s } = useCountdown()
   const { addItem } = useCart()
-  const [wished, setWished] = useState({})
-
-  const toggleWish = (id) => setWished(prev => ({ ...prev, [id]: !prev[id] }))
+  const { toggle, isWished } = useWishlist()
 
   return (
     <section className="bg-ebora-surface border-y border-ebora-border py-10 px-4">
@@ -71,12 +70,12 @@ export default function FlashDeals() {
                     -{deal.discount}%
                   </span>
                   <button
-                    onClick={() => toggleWish(deal.id)}
+                    onClick={() => toggle(deal.id)}
                     className={`absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-xs shadow-sm transition-colors ${
-                      wished[deal.id] ? 'text-brand-orange' : 'text-ink-3 hover:text-brand-orange'
+                      isWished(deal.id) ? 'text-brand-orange' : 'text-ink-3 hover:text-brand-orange'
                     }`}
                   >
-                    <i className={wished[deal.id] ? 'fas fa-heart' : 'far fa-heart'} />
+                    <i className={isWished(deal.id) ? 'fas fa-heart' : 'far fa-heart'} />
                   </button>
                 </div>
 

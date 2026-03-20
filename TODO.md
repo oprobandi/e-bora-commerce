@@ -2,6 +2,21 @@
 
 ---
 
+## ✅ Completed in V1.2
+
+- [x] **Cart drawer/sidebar** — slide-in panel with items, qty controls, subtotal, remove, checkout CTA
+- [x] **WishlistContext** — unified localStorage-persisted wishlist replacing duplicated local state
+- [x] **Real search** — lifted to App.jsx, filters by name/brand/specs, wired on both mobile and desktop
+- [x] **Search empty state** — contextual messaging when no results found
+- [x] **Favicon + Apple touch icon** — SVG favicon + theme-color meta
+- [x] **manifest.json** — PWA manifest with icons, lang: en-KE
+- [x] Fix React key prop bug in Navbar desktop subnav
+- [x] Fix cart ID collision between deals and products
+- [x] Fix dead mobile search input (was unconnected)
+- [x] Add loading="lazy" to product images
+
+---
+
 ## ✅ Completed in V1.1
 
 - [x] Migrate to Vite + React + Tailwind CSS
@@ -16,25 +31,21 @@
 
 ---
 
-## 🔴 High Priority (V1.2)
+## 🔴 High Priority (V1.3)
 
-- [ ] **Product detail modal** — clicking a product card opens a lightbox with full specs, image gallery, add-to-cart and quantity selector
-- [ ] **Cart drawer/sidebar** — slide-in panel showing items, quantities, subtotal, remove and checkout CTA
-- [ ] **Real search** — filter products by name/brand/specs as user types
-- [ ] **React Router** — add routing for /products, /cart, /checkout pages
+- [ ] **React Router** — routing for /products, /cart, /checkout pages
+- [ ] **Checkout page** with M-Pesa STK Push (Daraja API)
+- [ ] **Order confirmation page**
+- [ ] **Product detail modal** — lightbox with full specs, image gallery, qty selector
 - [ ] Real product images (replace Unsplash placeholders)
-- [ ] Favicon + Apple touch icon
-- [ ] `manifest.json` for PWA
+- [ ] **WhatsApp floating button** (wa.me/254799644100)
+- [ ] **County delivery calculator**
 
 ---
 
-## 🟡 Medium Priority (V1.3)
+## 🟡 Medium Priority (V1.4)
 
-- [ ] **Checkout page** with M-Pesa STK Push (Daraja API)
-- [ ] **Order confirmation page**
 - [ ] **Account page** — login, register, order history
-- [ ] **County delivery calculator**
-- [ ] **WhatsApp floating button** (wa.me/254799644100)
 - [ ] Product comparison (up to 3 items)
 - [ ] Recently viewed (localStorage)
 - [ ] Cookie consent (Kenya Data Protection Act)
@@ -56,11 +67,11 @@
 
 ---
 
-## 🐛 Known Issues V1.1
+## 🐛 Known Issues V1.2
 
 | # | Issue | Severity |
 |---|---|---|
-| 1 | Search UI does not filter (no backend) | High |
+| 1 | Checkout flow not yet built — cart CTA is a placeholder | High |
 | 2 | No routing — all content on single page | Medium |
-| 3 | Wishlist state not persisted to localStorage | Low |
-| 4 | Cart drawer not yet built — count only visible | Medium |
+| 3 | Flash deals countdown resets on page refresh | Low |
+| 4 | Product images are Unsplash placeholders | Low |

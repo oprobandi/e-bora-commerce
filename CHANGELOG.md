@@ -7,6 +7,42 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.3.0] — 2026-03-20
+
+### Added
+- **React Router v6** — client-side routing with `BrowserRouter`; routes for `/`, `/checkout`, `/order/success`
+- **Checkout page** (`/checkout`) — contact details form, county delivery selector (Nairobi free, all others KSh 300), payment method selector (M-Pesa STK Push, Visa/Mastercard, Cash on Delivery), order summary sidebar, full form validation
+- **Order success page** (`/order/success`) — order number, payment instructions per method, full order summary, support contacts
+- **WhatsApp floating button** — site-wide fixed button linking to `wa.me/254799644100`, expands on hover
+- **All 47 Kenya counties** in delivery selector with flat-rate pricing
+- **Cart clears on successful order** — `clearCart()` called before redirect to success page
+- **Order number generation** — client-side timestamp + random e.g. `EB-20260320-4821`
+- `react-router-dom@^6.22.0` added to dependencies
+
+### Changed
+- CartDrawer "Proceed to Checkout" button now routes to `/checkout` via `<Link>`
+- `App.jsx` restructured — `HomePage` extracted as sub-component to isolate home-specific state
+
+---
+
+## [1.2.0] — 2026-03-20
+
+### Added
+- **CartDrawer** — slide-in cart panel with quantity controls, remove, subtotal, M-Pesa payment note, and checkout CTA
+- **WishlistContext** — unified wishlist state with `localStorage` persistence; replaces duplicated local state in `ProductGrid` and `FlashDeals`
+- **Live search** — `searchQuery` lifted to `App.jsx`, wired to both desktop and mobile search inputs in Navbar; `ProductGrid` filters by name, brand, and specs in real time with clear (✕) button
+- **Search empty state** — contextual message when no products match query
+- **Favicon** — SVG favicon + Apple touch icon + `theme-color` meta tag
+- **PWA manifest** — `manifest.json` with name, icons, display mode, and `lang: en-KE`
+
+### Fixed
+- **React key prop bug** in Navbar desktop subnav — keys were on `<>` fragments; moved to `<span className="contents">` wrapper
+- **Cart ID collision** — Flash Deals now use prefixed IDs (`deal_1`…`deal_5`) to prevent localStorage cart corruption when a deal and product shared the same numeric ID
+- **Dead search inputs** — both desktop and mobile search inputs were unconnected in V1.1; both now call `onSearch` and reflect shared `searchQuery` state
+- **Lazy loading** — added `loading="lazy"` to all product card images in `ProductGrid`
+
+---
+
 ## [1.1.0] — 2026-03-20
 
 ### Migration

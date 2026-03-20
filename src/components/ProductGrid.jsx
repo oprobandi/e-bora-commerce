@@ -1,6 +1,7 @@
-import { useState } from 'react'
-import { products } from '../data/products'
 import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
+import { products } from '../data/products'
+import { useState } from 'react'
 
 const badgeStyles = {
   new:  'bg-brand-green text-white',
@@ -19,22 +20,27 @@ const Stars = ({ rating }) => {
   )
 }
 
-export default function ProductGrid({ activeCategory }) {
+export default function ProductGrid({ activeCategory, searchQuery }) {
   const { addItem } = useCart()
-  const [wished, setWished] = useState({})
+  const { toggle, isWished } = useWishlist()
   const [added, setAdded] = useState({})
 
-  const filtered = activeCategory === 'all'
-    ? products
-    : products.filter(p => p.category === activeCategory)
+  const query = (searchQuery || '').toLowerCase().trim()
+
+  const filtered = products.filter(p => {
+    const matchesCategory = activeCategory === 'all' || p.category === activeCategory
+    const matchesSearch = !query ||
+      p.name.toLowerCase().includes(query) ||
+      p.brand.toLowerCase().includes(query) ||
+      p.specs.toLowerCase().includes(query)
+    return matchesCategory && matchesSearch
+  })
 
   const handleAdd = (product) => {
     addItem(product)
     setAdded(prev => ({ ...prev, [product.id]: true }))
     setTimeout(() => setAdded(prev => ({ ...prev, [product.id]: false })), 1400)
   }
-
-  const toggleWish = (id) => setWished(prev => ({ ...prev, [id]: !prev[id] }))
 
   return (
     <section className="bg-white border-b border-ebora-border py-10 px-4">
@@ -43,21 +49,30 @@ export default function ProductGrid({ activeCategory }) {
         {/* Header */}
         <div className="flex items-end justify-between mb-6">
           <div>
-            <div className="text-[11.5px] font-bold tracking-[1.8px] uppercase text-primary mb-1">Top Picks</div>
+            <div className="text-[11.5px] font-bold tracking-[1.8px] uppercase text-primary mb-1">
+              {query ? `Search results for "${searchQuery}"` : 'Top Picks'}
+            </div>
             <h2 className="font-display font-extrabold text-2xl md:text-3xl text-ink tracking-tight">
-              Trending in Kenya
+              {query ? `${filtered.length} product${filtered.length !== 1 ? 's' : ''} found` : 'Trending in Kenya'}
             </h2>
           </div>
-          <a href="#" className="text-sm font-semibold text-primary border-b-[1.5px] border-transparent hover:border-primary transition-colors whitespace-nowrap flex items-center gap-1">
-            Browse All <i className="fas fa-chevron-right text-[10px]" />
-          </a>
+          {!query && (
+            <a href="#" className="text-sm font-semibold text-primary border-b-[1.5px] border-transparent hover:border-primary transition-colors whitespace-nowrap flex items-center gap-1">
+              Browse All <i className="fas fa-chevron-right text-[10px]" />
+            </a>
+          )}
         </div>
 
         {/* Empty state */}
         {filtered.length === 0 && (
           <div className="text-center py-16 text-ink-3">
-            <i className="fas fa-box-open text-4xl mb-3 block" />
-            <p className="font-medium">No products in this category yet.</p>
+            <i className="fas fa-magnifying-glass text-4xl mb-3 block opacity-30" />
+            <p className="font-semibold text-ink text-base mb-1">
+              {query ? `No results for "${searchQuery}"` : 'No products in this category yet.'}
+            </p>
+            <p className="text-sm">
+              {query ? 'Try a different search term or browse by category' : 'Check back soon'}
+            </p>
           </div>
         )}
 
@@ -73,6 +88,7 @@ export default function ProductGrid({ activeCategory }) {
                 <img
                   src={product.image}
                   alt={product.name}
+                  loading="lazy"
                   className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 {product.badge && (
@@ -81,12 +97,12 @@ export default function ProductGrid({ activeCategory }) {
                   </span>
                 )}
                 <button
-                  onClick={() => toggleWish(product.id)}
+                  onClick={() => toggle(product.id)}
                   className={`absolute top-2.5 right-2.5 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-sm shadow-sm transition-colors ${
-                    wished[product.id] ? 'text-brand-orange' : 'text-ink-3 hover:text-brand-orange'
+                    isWished(product.id) ? 'text-brand-orange' : 'text-ink-3 hover:text-brand-orange'
                   }`}
                 >
-                  <i className={wished[product.id] ? 'fas fa-heart' : 'far fa-heart'} />
+                  <i className={isWished(product.id) ? 'fas fa-heart' : 'far fa-heart'} />
                 </button>
                 {/* Quick add overlay */}
                 <button
